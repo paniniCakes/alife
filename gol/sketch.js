@@ -1,6 +1,6 @@
-let gridSize = 400;
-let rows = 29;
-let cols = 29;
+let gridSize = 600;
+let rows = 30;
+let cols = 30;
 let grid = createGrid(rows, cols);
 
 let rowStep = gridSize / rows;
@@ -8,11 +8,14 @@ let colStep = gridSize / cols;
 
 let isRunning = false;
 let isStep = false;
+let showGrid = true;
 
 let startButton;
 let stopButton;
 let clearButton;
 let stepButton;
+let randButton;
+let gridButton;
 
 function setup() {
     createCanvas(gridSize, gridSize);
@@ -20,21 +23,29 @@ function setup() {
 
     frameRate(10);
 
-    startButton = createButton('Start Simulating');
+    startButton = createButton("Start Simulating");
     startButton.position(gridSize + 30, 5);
     startButton.mousePressed(startSim);
 
-    stopButton = createButton('Stop Simulating');
+    stopButton = createButton("Stop Simulating");
     stopButton.position(gridSize + 30, 30);
     stopButton.mousePressed(stopSim);
 
-    clearButton = createButton('Clear Grid');
+    clearButton = createButton("Clear Grid");
     clearButton.position(gridSize + 30, 55);
     clearButton.mousePressed(clearSim);
 
-    stepButton = createButton('Step Forward');
+    stepButton = createButton("Step Forward");
     stepButton.position(gridSize + 30, 80);
     stepButton.mousePressed(stepSim);
+
+    randButton = createButton("Randomize");
+    randButton.position(gridSize + 30, 105);
+    randButton.mousePressed(randomizeGrid);
+
+    gridButton = createButton("Toggle Grid");
+    gridButton.position(gridSize + 30, 130);
+    gridButton.mousePressed(toggleGrid);
 }
 
 function draw() {
@@ -44,8 +55,23 @@ function draw() {
         for (let col=0; col<cols; col++) {
             if (grid[row][col] == 1) {
                 fill(0);
-                strokeWeight(1);
+                strokeWeight(0.5);
+                if (showGrid) {
+                    stroke(200);
+                }
+                else {
+
+                stroke(0);
+                }
                 rect(row*rowStep, col*colStep, rowStep, colStep);
+            }
+            else {
+                if (showGrid) {
+                    fill(255);
+                    strokeWeight(0.5);
+                    stroke(200);
+                    rect(row*rowStep, col*colStep, rowStep, colStep);
+                }
             }
         }
     }
@@ -85,10 +111,10 @@ function createGrid(rows, cols) {
     return arr;
 }
 
-function randomizeGrid(arr) {
+function randomizeGrid() {
     for (let row=0; row<rows; row++) {
         for (let col=0; col<cols; col++) {
-            arr[row][col] = Math.floor((Math.random() * 2));
+            grid[row][col] = Math.floor((Math.random() * 2));
         }
     }
 }
@@ -158,4 +184,13 @@ function clearSim() {
 function stepSim() {
     isRunning = false;
     isStep = true;
+}
+
+function toggleGrid() {
+    if (showGrid) {
+        showGrid = false;
+    }
+    else {
+        showGrid = true;
+    }
 }
