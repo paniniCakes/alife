@@ -24,6 +24,10 @@ let sizeInput;
 let rowsInput;
 let colsInput;
 
+let sizeText;
+let rowsText;
+let colsText;
+
 let canvas;
 
 function setup() {
@@ -59,17 +63,36 @@ function setup() {
     clearButton.mousePressed(clearSim);
 
     sizeInput = createInput(gridSize.toString());
+    sizeInput.size(40);
     sizeInput.position(gridSize + 15 + x, 180 + y);
 
     colsInput = createInput(rows.toString());
+    colsInput.size(40);
     colsInput.position(gridSize + 15 + x, 205 + y);
 
     rowsInput = createInput(cols.toString());
+    rowsInput.size(40);
     rowsInput.position(gridSize + 15 + x, 230 + y);
 
     confirmButton = createButton("Confirm");
     confirmButton.position(gridSize + 15 + x, 255 + y);
     confirmButton.mousePressed(confirmChanges);
+
+    sizeText;
+    rowsText;
+    colsText;
+
+    sizeText = createElement("p", "Grid size");
+    sizeText.position(gridSize + 68 + x, 169 + y);
+    sizeText.addClass("standard");
+
+    colsText = createElement("p", "Rows");
+    colsText.position(gridSize + 68 + x, 194 + y);
+    colsText.addClass("standard");
+
+    rowsText = createElement("p", "Cols");
+    rowsText.position(gridSize + 68 + x, 219 + y);
+    rowsText.addClass("standard");
 }
 
 function draw() {
@@ -238,4 +261,7 @@ function confirmChanges() {
     colsInput.position(gridSize + 15 + x, 205 + y);
     rowsInput.position(gridSize + 15 + x, 230 + y);
     confirmButton.position(gridSize + 15 + x, 255 + y);
+    sizeText.position(gridSize + 68 + x, 169 + y);
+    colsText.position(gridSize + 68 + x, 194 + y);
+    rowsText.position(gridSize + 68 + x, 219 + y);
 }
