@@ -18,9 +18,16 @@ let clearButton;
 let stepButton;
 let randButton;
 let gridButton;
+let confirmButton;
+
+let sizeInput;
+let rowsInput;
+let colsInput;
+
+let canvas;
 
 function setup() {
-    let canvas = createCanvas(gridSize, gridSize);
+    canvas = createCanvas(gridSize, gridSize);
     canvas.position(x, y);
 
     emptyGrid(grid);
@@ -50,6 +57,19 @@ function setup() {
     clearButton = createButton("Clear");
     clearButton.position(gridSize + 15 + x, 130 + y);
     clearButton.mousePressed(clearSim);
+
+    sizeInput = createInput(gridSize.toString());
+    sizeInput.position(gridSize + 15 + x, 180 + y);
+
+    colsInput = createInput(rows.toString());
+    colsInput.position(gridSize + 15 + x, 205 + y);
+
+    rowsInput = createInput(cols.toString());
+    rowsInput.position(gridSize + 15 + x, 230 + y);
+
+    confirmButton = createButton("Confirm");
+    confirmButton.position(gridSize + 15 + x, 255 + y);
+    confirmButton.mousePressed(confirmChanges);
 }
 
 function draw() {
@@ -189,4 +209,33 @@ function toggleGrid() {
     else {
         showGrid = true;
     }
+}
+
+function confirmChanges() {
+    isRunning = false;
+    gridSize = parseInt(sizeInput.value());
+    x = screen.width / 2 - (gridSize / 2);
+    rows = parseInt(rowsInput.value());
+    cols = parseInt(colsInput.value());
+    rowStep = gridSize / rows;
+    colStep = gridSize / cols;
+    grid = createGrid(rows, cols);
+    
+    canvas = createCanvas(gridSize, gridSize);
+    canvas.position(x, y);
+
+    emptyGrid(grid);
+
+    frameRate(10);
+
+    startButton.position(gridSize + 15 + x, 5 + y);
+    stopButton.position(gridSize + 15 + x, 30 + y);
+    stepButton.position(gridSize + 15 + x, 55 + y);
+    randButton.position(gridSize + 15 + x, 80 + y);
+    gridButton.position(gridSize + 15 + x, 105 + y);
+    clearButton.position(gridSize + 15 + x, 130 + y);
+    sizeInput.position(gridSize + 15 + x, 180 + y);
+    colsInput.position(gridSize + 15 + x, 205 + y);
+    rowsInput.position(gridSize + 15 + x, 230 + y);
+    confirmButton.position(gridSize + 15 + x, 255 + y);
 }
