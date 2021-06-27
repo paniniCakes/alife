@@ -1,6 +1,8 @@
-let gridSize = 600;
-let rows = 30;
-let cols = 30;
+let gridSize = 400;
+let x = screen.width / 2 - (gridSize / 2);
+let y = 80;
+let rows = 20;
+let cols = 20;
 let grid = createGrid(rows, cols);
 
 let rowStep = gridSize / rows;
@@ -18,34 +20,36 @@ let randButton;
 let gridButton;
 
 function setup() {
-    createCanvas(gridSize, gridSize);
+    let canvas = createCanvas(gridSize, gridSize);
+    canvas.position(x, y);
+
     emptyGrid(grid);
 
     frameRate(10);
 
     startButton = createButton("Start Simulating");
-    startButton.position(gridSize + 30, 5);
+    startButton.position(gridSize + 15 + x, 5 + y);
     startButton.mousePressed(startSim);
 
     stopButton = createButton("Stop Simulating");
-    stopButton.position(gridSize + 30, 30);
+    stopButton.position(gridSize + 15 + x, 30 + y);
     stopButton.mousePressed(stopSim);
 
-    clearButton = createButton("Clear Grid");
-    clearButton.position(gridSize + 30, 55);
-    clearButton.mousePressed(clearSim);
-
     stepButton = createButton("Step Forward");
-    stepButton.position(gridSize + 30, 80);
+    stepButton.position(gridSize + 15 + x, 55 + y);
     stepButton.mousePressed(stepSim);
 
     randButton = createButton("Randomize");
-    randButton.position(gridSize + 30, 105);
+    randButton.position(gridSize + 15 + x, 80 + y);
     randButton.mousePressed(randomizeGrid);
 
     gridButton = createButton("Toggle Grid");
-    gridButton.position(gridSize + 30, 130);
+    gridButton.position(gridSize + 15 + x, 105 + y);
     gridButton.mousePressed(toggleGrid);
+
+    clearButton = createButton("Clear");
+    clearButton.position(gridSize + 15 + x, 130 + y);
+    clearButton.mousePressed(clearSim);
 }
 
 function draw() {
@@ -60,8 +64,7 @@ function draw() {
                     stroke(200);
                 }
                 else {
-
-                stroke(0);
+                    stroke(0);
                 }
                 rect(row*rowStep, col*colStep, rowStep, colStep);
             }
@@ -86,13 +89,11 @@ function draw() {
 }
 
 function mouseClicked() {
-    if (mouseX > gridSize || mouseY > gridSize) return;
-    for (let i=0; i<gridSize; i++) {
-        console.log(mouseX);
+    if (mouseX < 0 || mouseY < 0 || mouseX > gridSize || mouseY > gridSize) return;
+    for (let i=1; i<=rows; i++) {
         if (mouseX < i*rowStep) {
-            for (let j=0; j<gridSize; j++) {
+            for (let j=1; j<=cols; j++) {
                 if (mouseY < j*colStep) {
-                    console.log(i, j);
                     if (grid[i-1][j-1] == 1) grid[i-1][j-1] = 0;
                     else grid[i-1][j-1] = 1;
                     break;
@@ -132,7 +133,6 @@ function countNeighbors(arr, r, c) {
     for (let row=r-1; row<=r+1; row++) {
         for (let col=c-1; col<=c+1; col++) {
             if (row >= 0 && row <= rows-1 && col >= 0 && col <= cols-1 && (row != r || col != c) && arr[row][col] == 1) {
-                console.log("( " + r, ",", c + " ) I FOUND N AT: ", row, col);
                 count++;
             }
         }
@@ -142,9 +142,7 @@ function countNeighbors(arr, r, c) {
 
 function nextCellState(arr, r, c) {
     let neighbors = countNeighbors(arr, r, c);
-    console.log("( " + r, ",", c + " ) I FOUND A TOTAL OF: ", neighbors);
     let state = arr[r][c];
-    console.log("( " + r, ",", c + " ) I AM CURRENTLY AT STATE: ", state);
     if (state == 1) {
         if (neighbors < 2) return 0;
         if (neighbors == 2 || neighbors == 3) return 1;
@@ -161,8 +159,6 @@ function populateNextGen(arr) {
     for (let row=0; row<rows; row++) {
         for (let col=0; col<cols; col++) {
             out[row][col] = nextCellState(arr, row, col);
-            console.log("I am the cell at: " + row, col);
-            console.log("Above cell value next value: " + out[row][col]);
         }
     }
     return out;
