@@ -1,4 +1,4 @@
-let gridSize = 400;
+let gridSize = 600;
 let x = screen.width / 2 - (gridSize / 2);
 let y = 80;
 let rows = 20;
