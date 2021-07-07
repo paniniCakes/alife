@@ -31,6 +31,6 @@ $ git clone https://github.com/paniniCakes/alife.git
 
 2. Set up and run a local server that hosts the `gol` subdirectory. Detailed instructions [here](https://github.com/processing/p5.js/wiki/Local-server).
 
-3. Access the repo through your browser.
+3. Access the repository through your browser.
 
 4. Enjoy!
