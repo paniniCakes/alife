@@ -33,4 +33,4 @@ $ git clone https://github.com/paniniCakes/alife.git
 
 3. Access the repository through your browser.
 
-4. Enjoy
+4. Enjoy!
